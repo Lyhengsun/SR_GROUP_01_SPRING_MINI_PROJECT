@@ -32,11 +32,11 @@
 	</properties>
 	<dependencies>
 
-		<!-- spring security 
+		<!-- spring security  -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency> -->
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -78,14 +78,14 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- spring security  
+		<!-- spring security   -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
-		</dependency> -->
+		</dependency>
 
-		<!-- jwt dependencies
+		<!-- jwt dependencies -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
@@ -100,7 +100,7 @@
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.12.6</version>
-		</dependency> -->
+		</dependency>
 
 		<dependency>
 			<groupId>org.mapstruct</groupId>
