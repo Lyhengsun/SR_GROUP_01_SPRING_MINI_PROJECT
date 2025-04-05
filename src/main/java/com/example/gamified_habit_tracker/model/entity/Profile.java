@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Profile {
-    private Long appUserID;
+    private Long appUserId;
     private String userName;
     private String email;
     private String password;
@@ -21,5 +21,4 @@ public class Profile {
     private String profileImage;
     private boolean isVerified;
     private LocalDateTime createdAt;
-
 }

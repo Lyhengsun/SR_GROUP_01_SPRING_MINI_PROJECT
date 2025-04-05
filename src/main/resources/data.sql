@@ -1,8 +1,10 @@
-INSERT INTO app_users (username, email, password, level, xp, profile_image, is_verified)
+
+INSERT INTO app_users (app_user_id,username, email, password, xp, level, profile_image, is_verified)
 VALUES
-    ('nich', 'nich@example.com', 'password123', 1, 100, 'image', TRUE),
-    ('jing', 'jing@example.com', 'password123', 2, 250, 'image', TRUE),
-    ('vorn', 'vorn@example.com', 'password123', 1, 50, 'image', TRUE),
-    ('kimheng', 'kimheng@example.com', 'password123', 3, 500, 'image', TRUE),
-    ('len', 'len@example.com', 'password123', 1, 75, 'image', TRUE),
-    ('mo', 'mo@example.com', 'password123', 2, 200, 'image', TRUE);
+    (25,'nichhh', 'nichhh@gmail.com', '111', 100, 1, 'nich_profile.jpg', TRUE),
+    (26,'jinggg', 'jinggg@gmail.com', '444', 250, 2, 'jing_profile.jpg', FALSE),
+    (27,'vorn mog hengg', 'vornnn@gmail.com', '333', 500, 3, 'vorn_profile.jpg', TRUE),
+    (28,'lennn', 'lennn@gmail.com', '555', 750, 4, 'len_profile.jpg', FALSE);
+
+
+Select * FROM app_users

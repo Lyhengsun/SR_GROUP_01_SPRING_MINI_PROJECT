@@ -44,7 +44,6 @@ public class GlobalException {
                 errors.put(paramName, messageError.getDefaultMessage()); // Store error message
             }
         });
-
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problemDetail.setTitle("Method Parameter Validation Failed");
         problemDetail.setProperties(Map.of(
