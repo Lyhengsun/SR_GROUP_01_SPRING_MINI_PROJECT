@@ -40,7 +40,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthRequest request)
             throws Exception {
-        System.out.println("Login Controller");
         final UserDetails userDetails = appUserService.loadUserByUsername(request.getIdentifier());
         authenticate(userDetails.getUsername(), request.getPassword());
         final String token = jwtService.generateToken(userDetails);
@@ -50,7 +49,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AppUserRequest request) {
-        System.out.println("Register Controller");
         return ResponseEntity.ok(appUserService.registerUser(request));
     }
 }

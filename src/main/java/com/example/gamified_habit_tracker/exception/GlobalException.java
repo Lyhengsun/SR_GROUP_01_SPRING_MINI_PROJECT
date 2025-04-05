@@ -21,6 +21,13 @@ public class GlobalException {
         return problemDetail;
     }
 
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleCheckedException(Exception e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        problemDetail.setProperty("timestamp", LocalDateTime.now());
+        return problemDetail;
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleValidationException(MethodArgumentNotValidException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
@@ -53,4 +60,5 @@ public class GlobalException {
 
         return problemDetail;
     }
+
 }
