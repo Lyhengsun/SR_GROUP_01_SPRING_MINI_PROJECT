@@ -14,6 +14,7 @@ import com.example.gamified_habit_tracker.model.entity.AppUser;
 public interface AppUserRepository {
     @Results(id = "appUserMapper", value = {
             @Result(property = "appUserId", column = "app_user_id"),
+            @Result(property = "appUsername", column = "username"),
             @Result(property = "profileImageUrl", column = "profile_image"),
             @Result(property = "iseVerified", column = "is_verified"),
             @Result(property = "createdAt", column = "created_at")
@@ -38,7 +39,8 @@ public interface AppUserRepository {
     @ResultMap("appUserMapper")
     @Select("""
             INSERT INTO app_users(username, email, password, profile_image)
-            VALUES (#{req.appUsernmae}, #{req.email}, #{req.password}, #{req.profileImageUrl});
+            VALUES (#{req.appUsernmae}, #{req.email}, #{req.password}, #{req.profileImageUrl})
+            RETURNING *;
             """)
     public AppUser registerUser(@Param("req") AppUserRequest request);
 }

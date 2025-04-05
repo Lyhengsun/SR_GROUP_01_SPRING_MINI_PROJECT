@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.gamified_habit_tracker.exception.NotFoundException;
 import com.example.gamified_habit_tracker.mapper.AppUserMapper;
+import com.example.gamified_habit_tracker.model.dto.request.AppUserRequest;
+import com.example.gamified_habit_tracker.model.dto.response.AppUserResponse;
+import com.example.gamified_habit_tracker.model.entity.AppUser;
 import com.example.gamified_habit_tracker.repository.AppUserRepository;
 import com.example.gamified_habit_tracker.service.AppUserService;
 
@@ -31,4 +34,10 @@ public class AppUserServiceImpl implements AppUserService {
         return userDetails;
     }
 
+    @Override
+    public AppUserResponse registerUser(AppUserRequest request) {
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        AppUser appUser = appUserRepository.registerUser(request);
+        return appUserMapper.toAppUserResponse(appUser);
+    }
 }
