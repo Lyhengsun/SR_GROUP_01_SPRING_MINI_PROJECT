@@ -16,7 +16,7 @@ public interface AppUserRepository {
             @Result(property = "appUserId", column = "app_user_id"),
             @Result(property = "appUsername", column = "username"),
             @Result(property = "profileImageUrl", column = "profile_image"),
-            @Result(property = "iseVerified", column = "is_verified"),
+            @Result(property = "isVerified", column = "is_verified"),
             @Result(property = "createdAt", column = "created_at")
     })
     @Select("""
@@ -39,7 +39,7 @@ public interface AppUserRepository {
     @ResultMap("appUserMapper")
     @Select("""
             INSERT INTO app_users(username, email, password, profile_image)
-            VALUES (#{req.appUsernmae}, #{req.email}, #{req.password}, #{req.profileImageUrl})
+            VALUES (#{req.username}, #{req.email}, #{req.password}, #{req.profileImageUrl})
             RETURNING *;
             """)
     public AppUser registerUser(@Param("req") AppUserRequest request);
