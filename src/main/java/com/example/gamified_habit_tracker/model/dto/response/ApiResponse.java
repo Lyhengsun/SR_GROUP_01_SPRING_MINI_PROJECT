@@ -2,20 +2,17 @@ package com.example.gamified_habit_tracker.model.dto.response;
 
 import java.time.LocalDateTime;
 
+import lombok.*;
 import org.springframework.http.HttpStatus;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ApiResponse<T> {
+    private boolean success;
     private String message;
-    private T payload;
     private HttpStatus status;
-    private LocalDateTime timestamp;
+    private T payload;
+    private final LocalDateTime timestamp = LocalDateTime.now();
 }
