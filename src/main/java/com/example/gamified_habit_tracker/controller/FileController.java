@@ -4,6 +4,7 @@ import com.example.gamified_habit_tracker.model.dto.response.ApiResponse;
 import com.example.gamified_habit_tracker.model.entity.FileMetaData;
 import com.example.gamified_habit_tracker.service.FileService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.print.attribute.standard.Media;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("api/v1/files")
@@ -31,14 +33,15 @@ public class FileController {
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
+    @SneakyThrows
     @GetMapping("/preview-file/{file-name}")
     public ResponseEntity<?> getFileByFileName(@PathVariable("file-name") String fileName) {
 
-        Resource resource = fileService.getFileByFileName(fileName);
+        InputStream inputStream = fileService.getFileByFileName(fileName);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.IMAGE_JPEG)
-                .body(resource);
+                .body(inputStream.readAllBytes());
     }
 
 
