@@ -1,4 +1,4 @@
-package com.example.gamified_habit_tracker.model.dto.response;
+package com.example.gamified_habit_tracker.model.response;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ApiResponse<T> {
+    private Boolean success;
     private String message;
     private T payload;
     private HttpStatus status;
