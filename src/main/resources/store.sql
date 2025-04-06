@@ -1,8 +1,8 @@
 create database habit_tracker_db;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-drop table app_user_achievements;
 drop table achievements;
+drop table app_user_achievements;
 drop table habit_logs;
 drop table habits;
 drop table app_users;
@@ -48,9 +48,9 @@ CREATE TABLE IF NOT EXISTS habits
 CREATE TABLE IF NOT EXISTS habit_logs
 (
     habit_log_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    log_date     DATE    NOT NULL,
-    status       BOOLEAN NOT NULL,
-    xp_earned    INTEGER NOT NULL,
+    log_date     DATE NOT NULL DEFAULT CURRENT_DATE,
+    status       VARCHAR(100) NOT NULL,
+    xp_earned    INTEGER NOT NULL DEFAULT 0,
     habit_id     uuid NOT NULL,
     CONSTRAINT fk_habits FOREIGN KEY (habit_id) REFERENCES habits (habit_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

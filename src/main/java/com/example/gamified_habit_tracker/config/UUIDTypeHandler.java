@@ -15,6 +15,7 @@ import java.util.UUID;
 @MappedTypes(UUID.class)
 public class UUIDTypeHandler extends BaseTypeHandler<UUID> {
     @Override
+
     public void setNonNullParameter(PreparedStatement ps, int i, UUID parameter, JdbcType jdbcType)
             throws SQLException {
         ps.setString(i, parameter.toString()); // Convert UUID to String for storage

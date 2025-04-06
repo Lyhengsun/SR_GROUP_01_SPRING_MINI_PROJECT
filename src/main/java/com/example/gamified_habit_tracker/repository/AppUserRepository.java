@@ -26,19 +26,19 @@ public interface AppUserRepository {
     @Select("""
             SELECT * FROM app_users WHERE email = #{email};
             """)
-    public AppUser getUserByEmail(String email);
+    public AppUser getUserByEmail(@Param("email") String email);
 
     @ResultMap("appUserMapper")
     @Select("""
             SELECT * FROM app_users WHERE username = #{username};
             """)
-    public AppUser getUserByUsername(String username);
+    public AppUser getUserByUsername(@Param("username") String username);
 
     @ResultMap("appUserMapper")
     @Select("""
-            SELECT * FROM app_users WHERE app_user_id = #{userId};
+            SELECT * FROM app_users WHERE app_user_id = #{user_id};
             """)
-    public AppUser getUserByUserId(Long userId);
+    public AppUser getUserByUserId(@Param("user_id") UUID userId);
 
     @ResultMap("appUserMapper")
     @Select("""

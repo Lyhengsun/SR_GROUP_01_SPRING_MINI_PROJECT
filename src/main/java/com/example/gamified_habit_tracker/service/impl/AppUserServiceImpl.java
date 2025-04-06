@@ -1,5 +1,8 @@
 package com.example.gamified_habit_tracker.service.impl;
 
+import java.util.UUID;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,4 +43,22 @@ public class AppUserServiceImpl implements AppUserService {
         AppUser appUser = appUserRepository.registerUser(request);
         return appUserMapper.toAppUserResponse(appUser);
     }
+
+    @Override
+    public AppUserResponse getCurrentUser() {
+        AppUser currentAppUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+        if (SecurityContextHolder.getContext().getAuthentication() == null) {
+            throw new IllegalStateException("User is not authenticated");
+        }
+        return getUserById(currentAppUser.getAppUserId());
+    }
+
+    @Override
+    public AppUserResponse getUserById(UUID userId) {
+        AppUser appUser = appUserRepository.getUserByUserId(userId);
+        return appUserMapper.toAppUserResponse(appUser);
+    }
+
 }
