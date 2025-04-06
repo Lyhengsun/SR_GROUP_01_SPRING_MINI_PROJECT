@@ -59,7 +59,7 @@ public class HabitLogServiceImpl implements HabitLogService {
         HabitLog habitLog = habitLogRepository.createHabitLog(habitLogRequest);
         if (habitLog.getStatus() == Status.COMPLETED) {
             AppUser currentUser = appUserRepository.getUserByUserId(getCurrentUserId());
-            Long newXp = currentUser.getXp() + 10;
+            Long newXp = currentUser.getXp() + habitLog.getXpEarned();
             Long newLevel = newXp / 100;
             appUserRepository.updateUserLevel(getCurrentUserId(), newLevel, newXp);
         }

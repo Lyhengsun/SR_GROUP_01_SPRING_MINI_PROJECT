@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS habit_logs
     habit_log_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     log_date     DATE NOT NULL DEFAULT CURRENT_DATE,
     status       VARCHAR(100) NOT NULL,
-    xp_earned    INTEGER NOT NULL DEFAULT 0,
+    xp_earned    INTEGER NOT NULL DEFAULT 10,
     habit_id     uuid NOT NULL,
     CONSTRAINT fk_habits FOREIGN KEY (habit_id) REFERENCES habits (habit_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
