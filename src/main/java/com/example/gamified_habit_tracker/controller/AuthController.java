@@ -17,6 +17,7 @@ import com.example.gamified_habit_tracker.model.dto.request.AuthRequest;
 import com.example.gamified_habit_tracker.model.dto.response.AuthResponse;
 import com.example.gamified_habit_tracker.service.AppUserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -38,7 +39,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody AuthRequest request)
+    public ResponseEntity<?> authenticate(@Valid @RequestBody AuthRequest request)
             throws Exception {
         final UserDetails userDetails = appUserService.loadUserByUsername(request.getIdentifier());
         authenticate(userDetails.getUsername(), request.getPassword());
@@ -48,7 +49,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody AppUserRequest request) {
+    public ResponseEntity<?> register(@Valid @RequestBody AppUserRequest request) {
         return ResponseEntity.ok(appUserService.registerUser(request));
     }
 }

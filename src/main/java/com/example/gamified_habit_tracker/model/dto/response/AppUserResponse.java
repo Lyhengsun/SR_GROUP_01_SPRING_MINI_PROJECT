@@ -1,6 +1,7 @@
 package com.example.gamified_habit_tracker.model.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AppUserResponse {
-    private Long appUserId;
+    private UUID appUserId;
     private String username;
     private String email;
     private Long level;

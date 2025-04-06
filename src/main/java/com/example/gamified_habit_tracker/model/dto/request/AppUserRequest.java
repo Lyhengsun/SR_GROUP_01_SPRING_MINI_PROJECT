@@ -15,7 +15,7 @@ public class AppUserRequest {
     private String username;
 
     @NotBlank(message = "email is required")
-    @Email
+    @Email(message = "invalid email format")
     private String email;
 
     @NotBlank(message = "password is required")

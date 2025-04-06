@@ -2,6 +2,7 @@ package com.example.gamified_habit_tracker.model.entity;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AppUser implements UserDetails {
-    private Long appUserId;
+    private UUID appUserId;
     private String appUsername;
     private String email;
     private String password;

@@ -1,5 +1,7 @@
 package com.example.gamified_habit_tracker.controller;
 
+import java.util.UUID;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +21,11 @@ public class TestController {
     }
 
     @GetMapping("/current-user")
-    public Long getCurrentUserId() {
+    public UUID getCurrentUserId() {
         AppUser appUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
-        Long userId = appUser.getAppUserId();
+
+        UUID userId = appUser.getAppUserId();
         return userId;
     }
 }
