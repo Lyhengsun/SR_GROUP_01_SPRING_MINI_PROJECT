@@ -29,6 +29,7 @@ public class HabitLogController {
             @PathVariable("habit_id") UUID habitId) {
         List<HabitLogReponse> habitLogReponses = habitLogService.getHabitLogByHabitId(habitId);
         ApiResponse<List<HabitLogReponse>> response = ApiResponse.<List<HabitLogReponse>>builder()
+                .success(true)
                 .message("Get an achievement by App User Id successfully!")
                 .payload(habitLogReponses)
                 .status(HttpStatus.OK)
@@ -42,6 +43,7 @@ public class HabitLogController {
             @Valid @RequestBody HabitLogRequest habitLogRequest) {
         HabitLogReponse habitLog = habitLogService.createHabitLog(habitLogRequest);
         ApiResponse<HabitLogReponse> response = ApiResponse.<HabitLogReponse>builder()
+                .success(true)
                 .message("Created a habitlog successfully!")
                 .payload(habitLog)
                 .status(HttpStatus.CREATED)

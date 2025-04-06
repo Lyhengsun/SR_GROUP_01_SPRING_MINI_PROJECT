@@ -26,11 +26,12 @@ public class ProfileController {
     @GetMapping
     public ResponseEntity<ApiResponse<AppUserResponse>> getUserProfile() {
         AppUserResponse profile = appUserService.getCurrentUser();
-        ApiResponse<AppUserResponse> response = new ApiResponse<>(
-                "Get an attendee successfully!",
-                profile,
-                HttpStatus.OK,
-                LocalDateTime.now());
+        ApiResponse<AppUserResponse> response = ApiResponse.<AppUserResponse>builder()
+                .success(true)
+                .message("get user successfully")
+                .payload(profile)
+                .status(HttpStatus.OK)
+                .timestamp(LocalDateTime.now()).build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -39,6 +40,7 @@ public class ProfileController {
         AppUserResponse appUserResponse = appUserService.updateUserProfile(request);
 
         ApiResponse<AppUserResponse> response = ApiResponse.<AppUserResponse>builder()
+                .success(true)
                 .message("Successfully updated user profile")
                 .payload(appUserResponse)
                 .status(HttpStatus.OK)
@@ -52,6 +54,7 @@ public class ProfileController {
     public ApiResponse<AppUserResponse> deleteUserProfile() {
         AppUserResponse appUserResponse = appUserService.deleteUserProfile();
         return ApiResponse.<AppUserResponse>builder()
+                .success(true)
                 .message("Successfully deleted user profile")
                 .payload(appUserResponse)
                 .status(HttpStatus.OK)

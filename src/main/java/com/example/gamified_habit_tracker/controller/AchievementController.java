@@ -27,6 +27,7 @@ public class AchievementController {
             @RequestParam(defaultValue = "10") @Min(value = 1, message = "Size must be greater than or equal to 1") Integer size) {
         List<Achievement> achievements = achievementService.getAllAchievements(page, size);
         ApiResponse<List<Achievement>> response = ApiResponse.<List<Achievement>>builder()
+                .success(true)
                 .message("Get all achievements successfully!")
                 .payload(achievements)
                 .status(HttpStatus.OK)
@@ -41,6 +42,7 @@ public class AchievementController {
             @RequestParam(defaultValue = "10") @Min(value = 1, message = "Size must be greater than or equal to 1") Integer size) {
         List<Achievement> achievements = achievementService.getAchievementByAppUsersId(page, size);
         ApiResponse<List<Achievement>> response = ApiResponse.<List<Achievement>>builder()
+                .success(true)
                 .message("Get an achievement by App User Id successfully!")
                 .payload(achievements)
                 .status(HttpStatus.OK)

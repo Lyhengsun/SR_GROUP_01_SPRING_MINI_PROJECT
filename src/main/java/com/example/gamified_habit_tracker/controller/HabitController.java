@@ -31,6 +31,7 @@ public class HabitController {
             @RequestParam(defaultValue = "10") @Min(value = 1, message = "Size must be greater than or equal to 1") Integer size) {
         List<HabitResponse> habits = habitService.getAllHabits(page, size);
         ApiResponse<List<HabitResponse>> response = ApiResponse.<List<HabitResponse>>builder()
+                .success(true)
                 .message("Get all habits successfully!")
                 .payload(habits)
                 .status(HttpStatus.OK)
@@ -44,6 +45,7 @@ public class HabitController {
             @PathVariable("habit_id") UUID habitId) {
         HabitResponse habit = habitService.getHabitById(habitId);
         ApiResponse<HabitResponse> response = ApiResponse.<HabitResponse>builder()
+                .success(true)
                 .message("Get a habit successfully!")
                 .payload(habit)
                 .status(HttpStatus.OK)
@@ -56,6 +58,7 @@ public class HabitController {
     public ResponseEntity<ApiResponse<HabitResponse>> createHabit(@Valid @RequestBody HabitRequest habitRequest) {
         HabitResponse habit = habitService.createHabit(habitRequest);
         ApiResponse<HabitResponse> response = ApiResponse.<HabitResponse>builder()
+                .success(true)
                 .message("Created a habit successfully!")
                 .payload(habit)
                 .status(HttpStatus.CREATED)

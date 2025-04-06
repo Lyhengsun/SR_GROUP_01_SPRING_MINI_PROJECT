@@ -57,6 +57,7 @@ public class AuthController {
     public ResponseEntity<?> register(@Valid @RequestBody AppUserRequest request) {
         AppUserResponse appUserResponse = appUserService.registerUser(request);
         ApiResponse<AppUserResponse> response = ApiResponse.<AppUserResponse>builder()
+                .success(true)
                 .message("Register user successfully")
                 .payload(appUserResponse)
                 .status(HttpStatus.CREATED)
