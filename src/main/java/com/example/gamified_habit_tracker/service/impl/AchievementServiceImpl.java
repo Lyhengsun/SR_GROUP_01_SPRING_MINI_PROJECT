@@ -4,6 +4,7 @@ import com.example.gamified_habit_tracker.exception.NotFoundException;
 import com.example.gamified_habit_tracker.model.entity.Achievement;
 import com.example.gamified_habit_tracker.model.entity.AppUser;
 import com.example.gamified_habit_tracker.repository.AchievementRepository;
+import com.example.gamified_habit_tracker.repository.AppUserRepository;
 import com.example.gamified_habit_tracker.service.AchievementService;
 import lombok.RequiredArgsConstructor;
 
@@ -11,12 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AchievementServiceImpl implements AchievementService {
     private final AchievementRepository achievementRepository;
+    private final AppUserRepository appUserRepository;
 
     @Override
     public List<Achievement> getAllAchievements(Integer page, Integer size) {
@@ -35,8 +36,14 @@ public class AchievementServiceImpl implements AchievementService {
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             throw new IllegalArgumentException("User is not authenticated");
         }
-        UUID appUserId = currentAppUser.getAppUserId();
-        List<Achievement> achievements = achievementRepository.getAchievementsByAppUserId(appUserId, offset, size);
+        AppUser appUser = appUserRepository.getUserByUserId(currentAppUser.getAppUserId());
+        List<Achievement> collectedAchievements = achievementRepository.getAchievementUnderXpRequired(appUser.getXp());
+        if (collectedAchievements.size() > 0) {
+            collectedAchievements.forEach(achievement -> achievementRepository
+                    .insertUserAchievement(appUser.getAppUserId(), achievement.getAchievementId()));
+        }
+        List<Achievement> achievements = achievementRepository.getAchievementsByAppUserId(appUser.getAppUserId(),
+                offset, size);
         return achievements;
     }
 }

@@ -15,7 +15,8 @@ public interface AchievementRepository {
             @Result(property = "achievementId", column = "achievement_id", jdbcType = JdbcType.VARCHAR, javaType = UUID.class, typeHandler = UUIDTypeHandler.class),
             @Result(property = "frequency", column = "frequency"),
             @Result(property = "xpRequired", column = "xp_required"),
-            @Result(property = "profile", column = "app_user_id", one = @One(select = "com.example.gamified_habit_tracker.repository.AppUserRepository.getAppUserById")),
+            // @Result(property = "profile", column = "app_user_id", one = @One(select =
+            // "com.example.gamified_habit_tracker.repository.AppUserRepository.getAppUserById")),
     })
     @Select("SELECT * FROM achievements OFFSET #{offset} LIMIT #{limit};")
     List<Achievement> getAllAchievements(@Param("offset") Integer offset, @Param("limit") Integer size);
@@ -31,4 +32,16 @@ public interface AchievementRepository {
             """)
     List<Achievement> getAchievementsByAppUserId(@Param("appUserId") UUID appUserId, @Param("offset") Integer offset,
             @Param("limit") Integer size);
+
+    @ResultMap("achievementMapper")
+    @Select("""
+               SELECT * FROM achievements WHERE xp_required <= #{xp_required};
+            """)
+    List<Achievement> getAchievementUnderXpRequired(@Param("xp_required") Long xpRequired);
+
+    @Insert("""
+                INSERT INTO app_user_achievements (app_user_id, achievement_id)
+                VALUES (#{user_id}, #{achievement_id}) ON CONFLICT DO NOTHING;
+            """)
+    Boolean insertUserAchievement(@Param("user_id") UUID userId, @Param("achievement_id") UUID achievementId);
 }

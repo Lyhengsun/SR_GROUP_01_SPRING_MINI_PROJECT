@@ -39,7 +39,8 @@ public class AuthController {
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+            throw new Exception("Invalid username, email, or password. Please check your credentials and try again.",
+                    e);
         }
     }
 
@@ -50,7 +51,14 @@ public class AuthController {
         authenticate(userDetails.getUsername(), request.getPassword());
         final String token = jwtService.generateToken(userDetails);
         AuthResponse authResponse = new AuthResponse(token);
-        return ResponseEntity.ok(authResponse);
+        ApiResponse<AuthResponse> response = ApiResponse.<AuthResponse>builder()
+                .success(true)
+                .message("Authicated Successfully")
+                .payload(authResponse)
+                .status(HttpStatus.CREATED)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")

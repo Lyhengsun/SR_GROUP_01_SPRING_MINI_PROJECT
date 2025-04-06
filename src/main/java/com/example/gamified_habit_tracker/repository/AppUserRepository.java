@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
 import com.example.gamified_habit_tracker.config.UUIDTypeHandler;
@@ -66,4 +67,12 @@ public interface AppUserRepository {
                 RETURNING *;
             """)
     public AppUser deleteUserProfileById(@Param("user_id") UUID appUserId);
+
+    @Update("""
+                UPDATE app_users SET
+                level = #{level},
+                xp = #{xp}
+                WHERE app_user_id = #{user_id};
+            """)
+    public Boolean updateUserLevel(@Param("user_id") UUID userId, @Param("level") Long level, @Param("xp") Long xp);
 }

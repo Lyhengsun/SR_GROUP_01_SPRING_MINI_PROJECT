@@ -3,13 +3,17 @@ package com.example.gamified_habit_tracker.service.impl;
 import com.example.gamified_habit_tracker.mapper.HabitLogMapper;
 import com.example.gamified_habit_tracker.model.dto.request.HabitLogRequest;
 import com.example.gamified_habit_tracker.model.dto.response.HabitLogReponse;
+import com.example.gamified_habit_tracker.model.entity.AppUser;
 import com.example.gamified_habit_tracker.model.entity.HabitLog;
+import com.example.gamified_habit_tracker.model.enumeration.Status;
+import com.example.gamified_habit_tracker.repository.AppUserRepository;
 import com.example.gamified_habit_tracker.repository.HabitLogRepository;
 import com.example.gamified_habit_tracker.service.HabitLogService;
 import com.example.gamified_habit_tracker.service.HabitService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +23,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class HabitLogServiceImpl implements HabitLogService {
     private final HabitLogRepository habitLogRepository;
+    private final AppUserRepository appUserRepository;
     private final HabitService habitService;
     private final HabitLogMapper habitLogMapper;
+
+    private UUID getCurrentUserId() {
+        AppUser currentAppUser = (AppUser) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return currentAppUser.getAppUserId();
+    }
 
     private HabitLogReponse toHabitLogReponse(HabitLog habitLog) {
         HabitLogReponse habitLogReponse = habitLogMapper.toHabitLogReponse(habitLog);
@@ -45,6 +56,13 @@ public class HabitLogServiceImpl implements HabitLogService {
         if (habitLogRequest == null) {
             throw new IllegalArgumentException("HabitLog request cannot be null");
         }
-        return toHabitLogReponse(habitLogRepository.createHabitLog(habitLogRequest));
+        HabitLog habitLog = habitLogRepository.createHabitLog(habitLogRequest);
+        if (habitLog.getStatus() == Status.COMPLETED) {
+            AppUser currentUser = appUserRepository.getUserByUserId(getCurrentUserId());
+            Long newXp = currentUser.getXp() + 10;
+            Long newLevel = newXp / 100;
+            appUserRepository.updateUserLevel(getCurrentUserId(), newLevel, newXp);
+        }
+        return toHabitLogReponse(habitLog);
     }
 }

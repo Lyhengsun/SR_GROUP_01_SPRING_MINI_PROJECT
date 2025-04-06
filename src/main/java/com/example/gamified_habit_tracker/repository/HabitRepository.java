@@ -16,7 +16,6 @@ public interface HabitRepository {
             @Result(property = "habitId", column = "habit_id", jdbcType = JdbcType.VARCHAR, javaType = UUID.class, typeHandler = UUIDTypeHandler.class),
             @Result(property = "title", column = "title"),
             @Result(property = "description", column = "description"),
-            @Result(property = "frequency", column = "frequency"),
             @Result(property = "isActive", column = "is_active"),
             @Result(property = "createdAt", column = "created_at"),
             @Result(property = "appUserId", column = "app_user_id", jdbcType = JdbcType.VARCHAR, javaType = UUID.class, typeHandler = UUIDTypeHandler.class)
