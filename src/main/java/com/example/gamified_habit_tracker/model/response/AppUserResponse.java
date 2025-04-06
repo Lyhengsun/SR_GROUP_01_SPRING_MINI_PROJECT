@@ -1,21 +1,21 @@
-package com.example.gamified_habit_tracker.model.entity;
+package com.example.gamified_habit_tracker.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+@NoArgsConstructor
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class AppUser {
+public class AppUserResponse {
     private UUID appUserId;
     private String appUserName;
     private String appUserEmail;
-    private UUID password;
     private Long level;
     private Long xp = 10l;
     private String profileImageUrl;

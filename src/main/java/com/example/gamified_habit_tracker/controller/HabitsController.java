@@ -4,7 +4,8 @@ import com.example.gamified_habit_tracker.model.entity.Habits;
 import com.example.gamified_habit_tracker.model.request.HabitRequest;
 import com.example.gamified_habit_tracker.model.response.ApiResponse;
 import com.example.gamified_habit_tracker.service.HabitService;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,23 +16,26 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/v1/habits")
-public class HabitController {
+public class HabitsController {
     private final HabitService habitService;
 
+    public HabitsController(HabitService habitService) {
+        this.habitService = habitService;
+    }
+
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Habits>>> getAllHabit(@RequestParam(defaultValue = "1") int page,
-                                                                 @RequestParam(defaultValue = "10") int size){
-        return ResponseEntity.ok(
-                ApiResponse.<List<Habits>>builder()
-                        .success(true)
-                        .message("Get all habits is successfully")
-                        .status(HttpStatus.OK)
-                        .payload(habitService.getAllHabit(page,size))
-                        .timestamp(LocalDateTime.now())
-                        .build()
-        );
+    public ResponseEntity<ApiResponse<List<Habits>>> getAllHabit(@RequestParam(defaultValue = "1") @Positive int page,
+                                                                 @RequestParam(defaultValue = "10") @Positive int size) {
+        ApiResponse<List<Habits>> response = ApiResponse.<List<Habits>>builder()
+                .success(true)
+                .message("Get all habits is successfully")
+                .status(HttpStatus.OK)
+                .payload(habitService.getAllHabit(page, size))
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("{habit-id}")
@@ -48,12 +52,12 @@ public class HabitController {
     }
 
     @PutMapping("{habit-id}")
-    public ResponseEntity<ApiResponse<Habits>> updateHabitById(@Param("habit-id") UUID uuid){
+    public ResponseEntity<ApiResponse<Habits>> updateHabitById(@Param("habit-id") @Positive UUID uuid, @RequestBody HabitRequest habitRequest){
         return ResponseEntity.ok(
                 ApiResponse.<Habits>builder()
                         .success(true)
                         .message("Update habit by id is successfully")
-                        .payload(habitService.updateHabitById(uuid))
+                        .payload(habitService.updateHabitById(uuid,habitRequest))
                         .status(HttpStatus.OK)
                         .timestamp(LocalDateTime.now())
                         .build()
@@ -61,12 +65,12 @@ public class HabitController {
     }
 
     @PostMapping()
-    public ResponseEntity<ApiResponse<Habits>> createHabit(@RequestBody HabitRequest habitRequest){
+    public ResponseEntity<ApiResponse<Habits>> createHabit(@RequestBody @Valid HabitRequest habitRequest){
         return ResponseEntity.ok(
                 ApiResponse.<Habits>builder()
                         .success(true)
                         .message("Post habit is successfully")
-                        .payload(habitService.createHabit())
+                        .payload(habitService.createHabit(habitRequest))
                         .status(HttpStatus.OK)
                         .timestamp(LocalDateTime.now())
                         .build()
@@ -74,7 +78,7 @@ public class HabitController {
     }
 
     @DeleteMapping("{habit-id}")
-    public ResponseEntity<ApiResponse<Habits>> deleteHabitById(@Param("habit-id")UUID uuid){
+    public ResponseEntity<ApiResponse<Habits>> deleteHabitById(@Param("habit-id")@Positive UUID uuid){
         return ResponseEntity.ok(
                 ApiResponse.<Habits>builder()
                         .success(true)
