@@ -1,6 +1,5 @@
 package com.example.gamified_habit_tracker.service.impl;
 
-import com.example.gamified_habit_tracker.exception.NotFoundException;
 import com.example.gamified_habit_tracker.mapper.HabitLogMapper;
 import com.example.gamified_habit_tracker.model.dto.request.HabitLogRequest;
 import com.example.gamified_habit_tracker.model.dto.response.HabitLogReponse;

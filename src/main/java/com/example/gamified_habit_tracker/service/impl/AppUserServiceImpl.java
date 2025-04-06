@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.gamified_habit_tracker.exception.NotFoundException;
 import com.example.gamified_habit_tracker.mapper.AppUserMapper;
 import com.example.gamified_habit_tracker.model.dto.request.AppUserRequest;
+import com.example.gamified_habit_tracker.model.dto.request.ProfileRequest;
 import com.example.gamified_habit_tracker.model.dto.response.AppUserResponse;
 import com.example.gamified_habit_tracker.model.entity.AppUser;
 import com.example.gamified_habit_tracker.repository.AppUserRepository;
@@ -58,6 +59,24 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUserResponse getUserById(UUID userId) {
         AppUser appUser = appUserRepository.getUserByUserId(userId);
+        return appUserMapper.toAppUserResponse(appUser);
+    }
+
+    @Override
+    public AppUserResponse updateUserProfile(ProfileRequest request) {
+        AppUser appUser = appUserRepository.updateUserProfile(getCurrentUser().getAppUserId(), request);
+        if (appUser == null) {
+            throw new NotFoundException("User does not exist");
+        }
+        return appUserMapper.toAppUserResponse(appUser);
+    }
+
+    @Override
+    public AppUserResponse deleteUserProfile() {
+        AppUser appUser = appUserRepository.deleteUserProfileById(getCurrentUser().getAppUserId());
+        if (appUser == null) {
+            throw new NotFoundException("User does not exist");
+        }
         return appUserMapper.toAppUserResponse(appUser);
     }
 

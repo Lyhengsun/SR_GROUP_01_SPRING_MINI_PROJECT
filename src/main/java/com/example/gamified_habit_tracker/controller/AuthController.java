@@ -1,5 +1,8 @@
 package com.example.gamified_habit_tracker.controller;
 
+import java.time.LocalDateTime;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.gamified_habit_tracker.jwt.JwtService;
 import com.example.gamified_habit_tracker.model.dto.request.AppUserRequest;
 import com.example.gamified_habit_tracker.model.dto.request.AuthRequest;
+import com.example.gamified_habit_tracker.model.dto.response.ApiResponse;
+import com.example.gamified_habit_tracker.model.dto.response.AppUserResponse;
 import com.example.gamified_habit_tracker.model.dto.response.AuthResponse;
 import com.example.gamified_habit_tracker.service.AppUserService;
 
@@ -50,6 +55,13 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody AppUserRequest request) {
-        return ResponseEntity.ok(appUserService.registerUser(request));
+        AppUserResponse appUserResponse = appUserService.registerUser(request);
+        ApiResponse<AppUserResponse> response = ApiResponse.<AppUserResponse>builder()
+                .message("Register user successfully")
+                .payload(appUserResponse)
+                .status(HttpStatus.CREATED)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

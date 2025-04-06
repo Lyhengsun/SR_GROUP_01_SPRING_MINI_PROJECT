@@ -10,18 +10,18 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public class Profile {
-        private UUID appUserId;
-        private String userName;
-        private String email;
-        private String password;
-        private Long level;
-        private Long xp;
-        private String profileImage;
-        private boolean isVerified;
-        private LocalDateTime createdAt;
-        private List<Achievement> achievements;
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Profile {
+    private UUID appUserId;
+    private String userName;
+    private String email;
+    private String password;
+    private Long level;
+    private Long xp;
+    private String profileImage;
+    private boolean isVerified;
+    private LocalDateTime createdAt;
+    private List<Achievement> achievements;
 }

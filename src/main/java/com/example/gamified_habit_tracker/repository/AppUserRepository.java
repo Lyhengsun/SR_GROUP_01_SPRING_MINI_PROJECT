@@ -12,6 +12,7 @@ import org.apache.ibatis.type.JdbcType;
 
 import com.example.gamified_habit_tracker.config.UUIDTypeHandler;
 import com.example.gamified_habit_tracker.model.dto.request.AppUserRequest;
+import com.example.gamified_habit_tracker.model.dto.request.ProfileRequest;
 import com.example.gamified_habit_tracker.model.entity.AppUser;
 
 @Mapper
@@ -47,4 +48,22 @@ public interface AppUserRepository {
             RETURNING *;
             """)
     public AppUser registerUser(@Param("req") AppUserRequest request);
+
+    @ResultMap("appUserMapper")
+    @Select("""
+                UPDATE app_users SET
+                username=#{req.username},
+                profile_image=#{req.profileImageUrl}
+                WHERE app_user_id = #{user_id}
+                RETURNING *;
+            """)
+    public AppUser updateUserProfile(@Param("user_id") UUID appUserId, @Param("req") ProfileRequest request);
+
+    @ResultMap("appUserMapper")
+    @Select("""
+                DELETE FROM app_users
+                WHERE app_user_id = #{user_id}
+                RETURNING *;
+            """)
+    public AppUser deleteUserProfileById(@Param("user_id") UUID appUserId);
 }
