@@ -1,16 +1,20 @@
 package com.example.gamified_habit_tracker.model.entity;
-
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Achievement {
-    private Long achievementId;
+
+    private UUID achievementId;
     private String title;
     private String description;
     private String badge;
     private Long xpRequired;
+
 }
